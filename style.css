@@ -1,0 +1,138 @@
+body {
+  display: flex;
+  font-family: Avenir Next, Avenir, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  margin: 0;
+  height: 100vh;
+}
+body img {
+  height: 100vh;
+}
+body #login {
+  width: 380px;
+  height: 100vh;
+}
+body #chat-session {
+  width: 380px;
+  display: none;
+}
+body #chat-session header {
+  background-color: #f6f6f6;
+  height: 85px;
+  border-bottom: 1px solid #D2CDC7;
+}
+body #chat-session header .phone-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 20px;
+}
+body #chat-session header .phone-nav #phone-hour {
+  font-weight: 600;
+  font-size: 14px;
+}
+body #chat-session header .phone-nav i {
+  font-size: 14px;
+}
+body #chat-session header nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  padding: 0 16px 2px;
+}
+body #chat-session header nav .exit {
+  margin: 0;
+  color: #00A2EB;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 18px;
+}
+body #chat-session header nav .group-infos {
+  display: flex;
+  gap: 6px;
+}
+body #chat-session header nav .group-infos .img {
+  height: 33px;
+  width: 33px;
+  background-color: black;
+  border-radius: 50%;
+}
+body #chat-session header nav .group-infos .group-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+body #chat-session #chat {
+  background: url("images/chat-bg.jpg");
+  background-size: cover;
+  height: calc(100vh - 146px);
+  overflow: scroll;
+  gap: 6px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+body #chat-session #chat > div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: flex-start;
+}
+body #chat-session #chat > div > div {
+  background-color: #FFFFFF;
+  padding: 7px 10px;
+  border-radius: 10px;
+  max-width: 300px;
+  word-wrap: break-word;
+  min-width: 130px;
+}
+body #chat-session #chat > div > div .nickname {
+  font-weight: bold;
+}
+body #chat-session #chat > div > div p {
+  margin: 0;
+}
+body #chat-session #chat > div > div .createdAt {
+  color: gray;
+  font-size: 12px;
+  float: right;
+}
+body #chat-session #chat .user {
+  align-items: flex-end;
+  margin: 0;
+}
+body #chat-session #chat .user div {
+  background-color: #E1FFD4;
+}
+body #chat-session .input {
+  background-color: #f6f6f6;
+  display: flex;
+  align-items: flex-start;
+  padding: 6px 20px;
+  gap: 6px;
+}
+body #chat-session .input input {
+  width: 300px;
+  border-radius: 20px;
+  border: 1px solid #D6D6D6;
+  height: 24px;
+  padding: 0 10px;
+}
+body #chat-session .input input:focus {
+  outline: 0px;
+  border: 1px solid #D6D6D6;
+}
+body #chat-session .input #sendMessage {
+  background-color: #00A2EB;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+body #chat-session .input #sendMessage i {
+  padding: 6px;
+  color: white;
+}
+
+/*# sourceMappingURL=style.css.map */

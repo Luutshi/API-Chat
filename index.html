@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/3b15dd16fa.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+
+    <script src="script.js" type="module"></script>
+
+</head>
+<body>
+    <section id="login">
+        <label for="email">Email:</label>
+        <input type="text" id="email"><br>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password"><br>
+
+        <input type="submit" id="loginButton">
+    </section>
+    <section id="chat-session">
+        <header>
+            <div class="phone-nav">
+                <div id="phone-hour"></div>
+
+                <div class="phone-infos">
+                    <i class="fa-solid fa-signal"></i>
+                    <i class="fa-solid fa-wifi"></i>
+                    <i class="fa-solid fa-battery-three-quarters"></i>
+                </div>
+            </div>
+
+            <nav>
+                <p class="exit" id="logoutButton"><i class="fa-solid fa-chevron-left"></i>Exit</p>
+
+                <div class="group-infos">
+                    <div class="img"></div>
+
+                    <div>
+                        <p class="group-title">Epitech Babyfoot</p>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div id="chat"></div>
+
+        <div class="input">
+            <input autocomplete="off" type="text" id="message"></input>
+            <div id="sendMessage">
+                <i class="fa-solid fa-comment"></i>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
