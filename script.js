@@ -5,8 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let userListT = document.querySelector('#userList')
 
     function ignoreListFunc() {
-        ignoreList = localStorage['ignoreList'].split(', ')
-
+        if (localStorage['ignoreList']) {
+            ignoreList = localStorage['ignoreList'].split(', ')
+        }
+        
         let ignoredUsers = document.querySelectorAll('.ignoredUser')
         ignoredUsers.forEach((user) => {
             user.remove()
