@@ -1,6 +1,14 @@
 import { connectToken, getUserData, getChatData, deleteMessage, sendMessage, putMessage } from "./api.js"
 
-document.addEventListener('DOMContentLoaded', () => {  
+document.addEventListener('DOMContentLoaded', () => {
+    let ignoreList = []
+
+    // localStorage.removeItem('ignoreList')
+    
+    if (localStorage.getItem('ignoreList') !== null) {
+        ignoreList = localStorage['ignoreList'].split(', ')
+    }
+
     function phoneTime() {
         function addZero(i) {
             if (i < 10) {i = "0" + i}
@@ -21,13 +29,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function testFunc(message, userNickname) {
         if (message['id'] > highestId) {
-            highestId = message['id']
             let newDiv = document.createElement('div')
             let secondDiv = document.createElement('div')
-            newDiv.id = 'message'+message['id']        
-            newDiv.className = 'ignored'     
+            newDiv.id = 'message'+message['id']
 
             if (message['nickname'] === userNickname) {
+                highestId = message['id']
                 newDiv.className = 'user'
 
                 newDiv.addEventListener('click', function() {
@@ -42,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     let optionsDiv = document.createElement('div')
                     let deleteButton = document.createElement('button')
                     let editButton = document.createElement('button')
-                    let ignoreButton = document.createElement('button')
                     let buttonContent = document.createTextNode('Delete')
                     deleteButton.className = 'deleteButton'
                     deleteButton.appendChild(buttonContent)
@@ -67,49 +73,85 @@ document.addEventListener('DOMContentLoaded', () => {
                     editButton.addEventListener('click', () => {
                         editMessage(newDiv, secondDiv)
                     })
+
                 })
 
+                let userMessage = document.createElement('p')
+                let messageContent = document.createTextNode(message['message'])
+                userMessage.className = 'userMessage'
+                userMessage.appendChild(messageContent)
+                secondDiv.appendChild(userMessage)
+    
+                let hourRegex = new RegExp(/(\d{2}:\d{2}):\d{2}/)
+                let createdAt = document.createElement('p')
+                messageContent = document.createTextNode(message['createdAt'].match(hourRegex)[1])
+                createdAt.className = 'createdAt'
+                createdAt.appendChild(messageContent)
+                secondDiv.appendChild(createdAt)
+    
+                newDiv.appendChild(secondDiv)
+                chat.appendChild(newDiv);
+                chat.scrollTo(0, chat.scrollHeight);
             } else {
-                let nickname = document.createElement('p')
-                nickname.append(document.createTextNode(message['nickname']))
-                nickname.className = 'nickname'
-                secondDiv.appendChild(nickname)
-
-                newDiv.addEventListener('click', function() {
-                    document.querySelectorAll('.ignoreButton').forEach((button) => {
-                        button.remove()
-                    })
-
-                    let optionsDiv = document.createElement('div')
-                    let ignoreButton = document.createElement('button')
-                    let buttonContent = document.createTextNode('Ignore')
-                    ignoreButton.className = 'ignoreButton'
-                    ignoreButton.appendChild(buttonContent)
-                    optionsDiv.appendChild(ignoreButton)
-                    secondDiv.appendChild(optionsDiv);
-
-                    ignoreButton.addEventListener('click', () => {
-                        console.log(message['id'])
-                    })
+                let count = 0;
+                ignoreList.forEach((ignoredUser) => {
+                    if (message['nickname'] === ignoredUser) {
+                        count++;
+                    }
                 })
+
+                if (count === 0) {
+                    let nickname = document.createElement('p')
+                    nickname.append(document.createTextNode(message['nickname']))
+                    nickname.className = 'nickname'
+                    secondDiv.appendChild(nickname)
+
+                    newDiv.addEventListener('click', function() {
+                        document.querySelectorAll('.ignoreButton').forEach((button) => {
+                            button.remove()
+                        })
+    
+                        let optionsDiv = document.createElement('div')
+                        let ignoreButton = document.createElement('button')
+                        let buttonContent = document.createTextNode('Ignore')
+                        ignoreButton.className = 'ignoreButton'
+                        ignoreButton.appendChild(buttonContent)
+                        optionsDiv.appendChild(ignoreButton)
+                        secondDiv.appendChild(optionsDiv);
+    
+                        ignoreButton.addEventListener('click', () => {
+                            highestId = 0;
+
+                            if (localStorage.getItem("ignoreList")) {
+                                if (!localStorage.getItem("ignoreList").includes(message['nickname'])) {
+                                    localStorage.setItem("ignoreList", localStorage.getItem("ignoreList") + ', ' + message['nickname'])
+                                }        
+                            } else {
+                                localStorage.setItem("ignoreList", message['nickname'])
+                            }
+
+                            ignoreList = localStorage['ignoreList'].split(', ')
+                        })
+                    })
+
+                    let userMessage = document.createElement('p')
+                    let messageContent = document.createTextNode(message['message'])
+                    userMessage.className = 'userMessage'
+                    userMessage.appendChild(messageContent)
+                    secondDiv.appendChild(userMessage)
+        
+                    let hourRegex = new RegExp(/(\d{2}:\d{2}):\d{2}/)
+                    let createdAt = document.createElement('p')
+                    messageContent = document.createTextNode(message['createdAt'].match(hourRegex)[1])
+                    createdAt.className = 'createdAt'
+                    createdAt.appendChild(messageContent)
+                    secondDiv.appendChild(createdAt)
+        
+                    newDiv.appendChild(secondDiv)
+                    chat.appendChild(newDiv);
+                    chat.scrollTo(0, chat.scrollHeight);
+                }
             }
-
-            let userMessage = document.createElement('p')
-            let messageContent = document.createTextNode(message['message'])
-            userMessage.className = 'userMessage'
-            userMessage.appendChild(messageContent)
-            secondDiv.appendChild(userMessage)
-
-            let hourRegex = new RegExp(/(\d{2}:\d{2}):\d{2}/)
-            let createdAt = document.createElement('p')
-            messageContent = document.createTextNode(message['createdAt'].match(hourRegex)[1])
-            createdAt.className = 'createdAt'
-            createdAt.appendChild(messageContent)
-            secondDiv.appendChild(createdAt)
-
-            newDiv.appendChild(secondDiv)
-            chat.appendChild(newDiv);
-            chat.scrollTo(0, chat.scrollHeight);
         }
 
         
@@ -127,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         testFunc(message, userNickname)
                     })
                 })
-            }, 1000)
+            }, 100)
         })
     } else {
         document.querySelector('input#loginButton').addEventListener('click', () => {
@@ -137,14 +179,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     chatSession.style.display = 'block'
                     getUserData().then((userNickname) => {
                         phoneTime()
-                        setInterval(phoneTime, 1000)
+                        setInterval(phoneTime, 100)
                         setInterval(() => {
                             getChatData().then((data) => {
                                 data['data'].reverse().forEach((message) => {
                                     testFunc(message, userNickname)
                                 })
                             })
-                        }, 1000)
+                        }, 100)
                     })
                 }
             })
