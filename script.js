@@ -2,12 +2,51 @@ import { connectToken, getUserData, getChatData, deleteMessage, sendMessage, put
 
 document.addEventListener('DOMContentLoaded', () => {
     let ignoreList = []
+    let userListT = document.querySelector('#userList')
 
-    // localStorage.removeItem('ignoreList')
-    
-    if (localStorage.getItem('ignoreList') !== null) {
+    function ignoreListFunc() {
         ignoreList = localStorage['ignoreList'].split(', ')
+
+        let ignoredUsers = document.querySelectorAll('.ignoredUser')
+        ignoredUsers.forEach((user) => {
+            user.remove()
+        })
+
+        ignoreList.slice(1).forEach((ignoredUser) => {
+            let newDiv = document.createElement('div')
+
+            let usernameP = document.createElement('p')
+            let usernameContent = document.createTextNode(ignoredUser)
+            usernameP.appendChild(usernameContent)
+
+            let unignoreButton = document.createElement('button')
+            let buttonContent = document.createTextNode('Unignore')
+            unignoreButton.className = ignoredUser
+            unignoreButton.appendChild(buttonContent)
+
+            newDiv.appendChild(usernameP)
+            newDiv.appendChild(unignoreButton)
+            newDiv.className = 'ignoredUser'
+
+            userListT.appendChild(newDiv)
+
+            unignoreButton.addEventListener('click', () => {
+                ignoreList.forEach((user) => {
+                    if (user === unignoreButton.className) {
+                        localStorage.setItem('ignoreList', localStorage.getItem('ignoreList').replaceAll(`, ${user}`, ''));
+                    }
+                })
+
+                ignoreListFunc()
+                ignoreList = localStorage['ignoreList'].split(', ')
+                highestId = 0
+                document.querySelectorAll('#chat > div').forEach((p) => {
+                    p.remove()
+                })
+            })
+        })
     }
+    ignoreListFunc()
 
     function phoneTime() {
         function addZero(i) {
@@ -120,17 +159,20 @@ document.addEventListener('DOMContentLoaded', () => {
                         secondDiv.appendChild(optionsDiv);
     
                         ignoreButton.addEventListener('click', () => {
-                            highestId = 0;
+                            highestId = 0
+                            document.querySelectorAll('#chat > div').forEach((p) => {
+                                p.remove()
+                            })
 
                             if (localStorage.getItem("ignoreList")) {
                                 if (!localStorage.getItem("ignoreList").includes(message['nickname'])) {
                                     localStorage.setItem("ignoreList", localStorage.getItem("ignoreList") + ', ' + message['nickname'])
                                 }        
                             } else {
-                                localStorage.setItem("ignoreList", message['nickname'])
+                                localStorage.setItem("ignoreList", `, ${message['nickname']}`)
                             }
-
-                            ignoreList = localStorage['ignoreList'].split(', ')
+                        
+                            ignoreListFunc()
                         })
                     })
 
@@ -221,16 +263,50 @@ document.addEventListener('DOMContentLoaded', () => {
 }
 
     function logout() {
-        localStorage.removeItem('token')
-        login.style.display = 'block'
-        chatSession.style.display = 'none'
+        Swal.fire({
+            title: 'Are you sure?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, disconnect me!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                localStorage.removeItem('token')
+                login.style.display = 'block'
+                chatSession.style.display = 'none'
+            }
+        })
     }
 
-    document.querySelector('#message').addEventListener('keypress', function (key) {
+    let clickCount = 0;
+    function userList() {
+        if (clickCount % 2 == 0) {
+            clickCount++
+            chat.style.display = 'none'
+            userListT.style.display = 'flex'
+            showIgnored.innerText = 'Show Chat'
+        }
+        else {
+            clickCount++
+            chat.style.display = 'flex'
+            userListT.style.display = 'none'
+            showIgnored.innerText = 'Ignored Users'
+
+            
+        }
+    }
+
+    document.querySelector('#showIgnored').addEventListener('click', () => {
+        userList()
+        ignoreListFunc()
+        chat.scrollTo(0, chat.scrollHeight);
+    })
+
+    document.querySelector('#message').addEventListener('keypress', (key) => {
         if (key['key'] === 'Enter') {
             sendMessage(document.querySelector('input#message'))
             document.querySelector('#message').value = ''
-
         }
     });
 

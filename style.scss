@@ -76,6 +76,29 @@ body {
             }
         }
 
+        .ignoredUser {
+            padding: 10px;
+            background-color: #FFF;
+            display: flex;
+            justify-content: space-between;
+
+            p {
+                margin: 0;
+            }
+        }
+
+        #userList {
+            background: url('images/chat-bg.jpg');
+            background-size: cover;
+            height: calc(100vh - 146px);
+            overflow: scroll;
+            gap: 6px;
+            padding: 10px;
+
+            display: none;
+            flex-direction: column;     
+        }
+        
         #chat {
             background: url('images/chat-bg.jpg');
             background-size: cover;

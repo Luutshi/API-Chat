@@ -63,6 +63,25 @@ body #chat-session header nav .group-infos .group-title {
   font-size: 14px;
   font-weight: 600;
 }
+body #chat-session .ignoredUser {
+  padding: 10px;
+  background-color: #FFF;
+  display: flex;
+  justify-content: space-between;
+}
+body #chat-session .ignoredUser p {
+  margin: 0;
+}
+body #chat-session #userList {
+  background: url("images/chat-bg.jpg");
+  background-size: cover;
+  height: calc(100vh - 146px);
+  overflow: scroll;
+  gap: 6px;
+  padding: 10px;
+  display: none;
+  flex-direction: column;
+}
 body #chat-session #chat {
   background: url("images/chat-bg.jpg");
   background-size: cover;

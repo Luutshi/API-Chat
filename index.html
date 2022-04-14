@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <title>Document</title>
     <script src="script.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 <body>
     <section id="login">
@@ -41,10 +42,13 @@
                         <p class="group-title">Epitech Babyfoot</p>
                     </div>
                 </div>
+
+                <p class="exit" id="showIgnored">Ignored users</p>
             </nav>
         </header>
 
         <div id="chat"></div>
+        <div id="userList"></div>
 
         <div class="input">
             <input autocomplete="off" type="text" id="message"></input>
